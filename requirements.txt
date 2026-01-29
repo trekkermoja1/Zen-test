@@ -1,0 +1,22 @@
+# Zen AI Pentest Requirements
+# Author: SHADDOWTAKA
+
+# Core async HTTP client
+aiohttp>=3.8.0
+aiofiles>=23.0.0
+
+# WebSocket support
+websockets>=11.0
+
+# Optional: For browser automation fallback
+# playwright>=1.40.0
+
+# Optional: For advanced parsing
+# beautifulsoup4>=4.12.0
+# lxml>=4.9.0
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# black>=23.0.0
+# pylint>=2.17.0
