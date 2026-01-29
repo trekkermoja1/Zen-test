@@ -10,6 +10,7 @@ from .agent_orchestrator import AgentOrchestrator
 from .research_agent import ResearchAgent
 from .exploit_agent import ExploitAgent
 from .analysis_agent import AnalysisAgent
+from .post_scan_agent import PostScanAgent, run_post_scan_workflow, VerifiedFinding, PentestLoot
 
 __all__ = [
     'BaseAgent',
@@ -18,5 +19,9 @@ __all__ = [
     'AgentOrchestrator',
     'ResearchAgent',
     'ExploitAgent',
-    'AnalysisAgent'
+    'AnalysisAgent',
+    'PostScanAgent',
+    'run_post_scan_workflow',
+    'VerifiedFinding',
+    'PentestLoot'
 ]

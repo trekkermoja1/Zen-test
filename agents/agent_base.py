@@ -19,11 +19,12 @@ logger = logging.getLogger("ZenAI.Agents")
 
 class AgentRole(Enum):
     """Agent roles for specialization"""
-    RESEARCHER = "researcher"       # Gathers information, reconnaissance
-    ANALYST = "analyst"            # Analyzes data, finds patterns
-    EXPLOIT = "exploit"            # Develops exploits, payloads
-    COORDINATOR = "coordinator"    # Manages workflow between agents
-    REPORTER = "reporter"          # Generates reports, summaries
+    RESEARCHER = "researcher"           # Gathers information, reconnaissance
+    ANALYST = "analyst"                # Analyzes data, finds patterns
+    EXPLOIT = "exploit"                # Develops exploits, payloads
+    COORDINATOR = "coordinator"        # Manages workflow between agents
+    REPORTER = "reporter"              # Generates reports, summaries
+    POST_EXPLOITATION = "post_exploit" # Post-scan workflow: verification, evidence, cleanup
 
 
 @dataclass
