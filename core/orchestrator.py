@@ -66,7 +66,7 @@ class BaseBackend(ABC):
         
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
-            await self.session.close()
+            await safe_close_session(self.session)
             
     @abstractmethod
     async def chat(self, prompt: str, context: str = "") -> Optional[str]:

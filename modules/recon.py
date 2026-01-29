@@ -150,7 +150,7 @@ Include common patterns like:
 Return as a comma-separated list.
 """
         
-        response = await self.orchestrator.process(prompt, required_quality=self.orchestrator.backends[0].__class__.__name__ == 'DuckDuckGoBackend' and __import__('core.orchestrator', fromlist=['QualityLevel']).QualityLevel.LOW or __import__('core.orchestrator', fromlist=['QualityLevel']).QualityLevel.MEDIUM)
+        response = await self.orchestrator.process(prompt)
         
         # Parse subdomains from response
         subdomains = []
