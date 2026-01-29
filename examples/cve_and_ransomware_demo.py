@@ -82,17 +82,17 @@ def demo_cve_database():
     
     if matches:
         for match in matches:
-            print(f"  ⚠️  Potential match: {match['ransomware']}")
+            print(f"  [!] Potential match: {match['ransomware']}")
             print(f"      Confidence: {match['confidence']}%")
             print(f"      Recommendation: {match['recommendation']}")
     else:
-        print("  ✅ No ransomware indicators detected")
+        print("  [OK] No ransomware indicators detected")
     
     # 4. List all ransomware
     print(colorize("\n[4] Available ransomware in database:", "cyan"))
     all_ransomware = cve_db.list_all_ransomware()
     for rw in all_ransomware:
-        status = "🔓" if rw["decryptable"] else "🔒"
+        status = "[DECRYPTABLE]" if rw["decryptable"] else "[LOCKED]"
         print(f"  {status} {rw['name']} ({rw['first_seen']}) - CVEs: {len(rw['cves'])}")
     
     # 5. List critical CVEs
@@ -204,10 +204,10 @@ def demo_statistics():
 async def main():
     """Main demo function"""
     print(colorize("""
-╔══════════════════════════════════════════════════════════════╗
-║           Zen AI Pentest - Database Demo                     ║
-║                  CVE | Ransomware | SQLi                     ║
-╚══════════════════════════════════════════════════════════════╝
+===============================================================
+           Zen AI Pentest - Database Demo
+                  CVE | Ransomware | SQLi
+===============================================================
     """, "bold"))
     
     try:
