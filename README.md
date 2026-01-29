@@ -94,9 +94,12 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.8 or higher (3.13+ on Windows see note below)
 - pip or pip3
 - Nuclei (optional, for vulnerability scanning)
+
+> **⚠️ Windows + Python 3.13+ Note:**  
+> If you encounter `_ProactorBasePipeTransport._call_connection_lost` errors on Windows with Python 3.13+, the tool includes automatic fixes. These errors are harmless and have been patched in the code.
 
 ### Quick Install
 
@@ -385,6 +388,54 @@ zen-ai-pentest/
 ├── setup.py
 └── requirements.txt
 ```
+
+## 🔧 Troubleshooting
+
+### Windows Python 3.13+ AsyncIO Errors
+
+If you see errors like:
+```
+Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+```
+
+**This is a known Python 3.13 issue on Windows.** The tool includes automatic patches, but if you still see these errors:
+
+1. **They are harmless** - The tool continues to work correctly
+2. **To suppress completely**, set environment variable:
+   ```powershell
+   $env:PYTHONWARNINGS="ignore"
+   python zen_ai_pentest.py
+   ```
+
+3. **Alternative**: Use Python 3.11 or 3.12 where this issue doesn't occur
+
+### Import Errors
+
+If you get `ModuleNotFoundError`:
+```bash
+# Ensure you're in the project directory
+cd zen-ai-pentest
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+### Connection Errors
+
+If backends fail to connect:
+1. Check your internet connection
+2. Verify API keys in `config.json`
+3. DuckDuckGo backend requires no authentication and is most reliable
+4. Try with just DuckDuckGo first:
+   ```python
+   from core.orchestrator import ZenOrchestrator
+   from backends.duckduckgo import DuckDuckGoBackend
+   
+   orch = ZenOrchestrator()
+   async with DuckDuckGoBackend() as ddg:
+       orch.add_backend(ddg)
+       result = await orch.process("test")
+   ```
 
 ## 🤝 Contributing
 

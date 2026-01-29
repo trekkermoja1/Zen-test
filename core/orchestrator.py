@@ -10,12 +10,19 @@ import aiohttp
 import json
 import random
 import traceback
+import sys
+import os
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any, List
 from dataclasses import dataclass
 from enum import Enum
 import logging
 from datetime import datetime
+
+# Apply Windows/asyncio fixes before any other imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.async_fixes import apply_windows_async_fixes, safe_close_session
+apply_windows_async_fixes()
 
 logging.basicConfig(
     level=logging.INFO,

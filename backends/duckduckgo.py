@@ -8,6 +8,10 @@ Supports GPT-4o-mini, Claude-3-haiku, Llama-3.1-70B
 import aiohttp
 from typing import Optional
 import logging
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.async_fixes import safe_close_session
 
 logger = logging.getLogger("ZenAI")
 
@@ -38,7 +42,7 @@ class DuckDuckGoBackend:
         
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
-            await self.session.close()
+            await safe_close_session(self.session)
             
     async def _get_vqd_token(self):
         """Get anti-CSRF token from DDG"""
