@@ -30,6 +30,7 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 ### Key Highlights
 
 - 🔗 **Multi-LLM Integration** - Seamlessly switches between DuckDuckGo AI, OpenRouter, ChatGPT, and Claude
+- 🤖 **Multi-Agent System** - Clawed/Moltbot-style agents that collaborate, share context, and conduct research
 - 🧠 **AI-Powered Analysis** - Intelligent vulnerability detection and exploit suggestion
 - 📊 **Comprehensive Databases** - Built-in CVE, Ransomware, and SQL Injection payload databases
 - 🔍 **Nuclei Integration** - Automated vulnerability scanning with Nuclei templates
@@ -51,6 +52,8 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 | **CVE Database** | Comprehensive CVE and ransomware database (NotPetya, WannaCry, etc.) | ✅ |
 | **SQL Injection DB** | 50+ payloads for 6 database types | ✅ |
 | **Nuclei Integration** | Template management and automated scanning | ✅ |
+| **Multi-Agent System** | Clawed/Moltbot-style collaborative agents | ✅ |
+| **WordPress Templates** | Nuclei templates for WordPress pentesting | ✅ |
 | Report Generation | Professional markdown, JSON, CSV, and HTML reports | ✅ |
 | Session Management | Persistent sessions for authenticated backends | ✅ |
 | Stealth Mode | Random delays, user-agent rotation, and evasion techniques | ✅ |
@@ -332,6 +335,64 @@ zen-ai> report example.com
 - CVE-2020-1472 (Zerologon)
 - CVE-2021-26855 (ProxyLogon)
 
+## 🤖 Multi-Agent System
+
+Inspired by **Clawed/Moltbot**, Zen AI Pentest includes a collaborative multi-agent system where specialized agents work together, share context, and conduct research.
+
+### Agent Roles
+
+| Agent | Role | Responsibility |
+|-------|------|---------------|
+| **ResearchBot** | Researcher | Gathers CVE data, performs reconnaissance |
+| **AnalysisBot** | Analyst | Identifies patterns, correlates findings |
+| **ExploitBot** | Exploit | Develops payloads, suggests techniques |
+
+### Key Features
+
+- **Inter-Agent Messaging** - Agents can send messages to each other (broadcast, role-based, direct)
+- **Context Sharing** - Shared workspace for all findings and research
+- **Collaborative Research** - Multiple agents work on the same topic simultaneously
+- **Conversation Facilitation** - Agents can have multi-round discussions
+- **Distributed Workload** - Prevents the main pentest AI from being overwhelmed
+
+### Using the Agent System
+
+```python
+from agents.integration import AgentSystemIntegration
+
+# Initialize
+agents = AgentSystemIntegration(zen_orchestrator)
+await agents.initialize()
+
+# Start collaborative research
+thread_id = await agents.conduct_research(
+    topic="WordPress CVEs",
+    pentest_context={"target": "example.com"}
+)
+
+# Let agents analyze together
+results = await agents.analyze_target("example.com", findings)
+
+# Facilitate agent discussion
+messages = await agents.facilitate_discussion(
+    topic="Attack vectors for CVE-2017-0144",
+    rounds=3
+)
+```
+
+### Agent CLI
+
+```bash
+# Start the agent CLI
+python agents/cli.py
+
+# Available commands:
+agents> research WordPress vulnerabilities
+agents> analyze example.com
+agents> discuss Ransomware IOCs
+agents> status
+```
+
 ## 🔌 API Backends
 
 ### Backend Priority System
@@ -358,6 +419,32 @@ result = await orchestrator.process(prompt, QualityLevel.MEDIUM)
 result = await orchestrator.process(prompt, QualityLevel.HIGH)
 ```
 
+## 🎯 WordPress Nuclei Templates
+
+Pre-built Nuclei templates for WordPress penetration testing:
+
+| Template | Severity | Description |
+|----------|----------|-------------|
+| `wp-login-brute.yaml` | Medium | Detects wp-login.php and brute force potential |
+| `wp-xmlrpc-pingback.yaml` | High | XML-RPC pingback amplification vulnerability |
+| `wp-users-api.yaml` | Medium | REST API user enumeration |
+| `wp-debug-log.yaml` | High | Debug.log file exposure |
+| `wp-config-backup.yaml` | Critical | wp-config.php backup file exposure |
+
+### Usage
+
+```python
+from modules.nuclei_integration import NucleiIntegration
+
+nuclei = NucleiIntegration(orchestrator)
+
+# Scan with WordPress templates
+findings = await nuclei.scan_target(
+    target="wordpress-site.com",
+    templates=["data/nuclei_templates/wordpress/wp-config-backup.yaml"]
+)
+```
+
 ## 📁 Project Structure
 
 ```
@@ -372,10 +459,19 @@ zen-ai-pentest/
 │   ├── nuclei_integration.py   # NEW
 │   ├── sql_injection_db.py     # NEW
 │   └── cve_database.py         # NEW
+├── agents/                     # NEW: Multi-Agent System
+│   ├── agent_base.py
+│   ├── agent_orchestrator.py
+│   ├── research_agent.py
+│   ├── analysis_agent.py
+│   ├── exploit_agent.py
+│   ├── integration.py
+│   └── cli.py
 ├── data/                       # NEW: Databases
 │   ├── cve_db/
 │   │   └── ransomware_cves.json
 │   ├── nuclei_templates/
+│   │   └── wordpress/          # NEW: WordPress templates
 │   └── payloads/
 ├── utils/                      # Helper utilities
 ├── examples/                   # Example scripts
