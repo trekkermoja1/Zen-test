@@ -1,0 +1,73 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build wheel
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Zen AI Pentest - Release ${{ github.ref }}
+            
+            ### Features
+            - Multi-LLM Support (DuckDuckGo, OpenRouter, ChatGPT, Claude)
+            - CVE Database with 1000+ entries
+            - SQL Injection Payload Library (48+ payloads)
+            - Ransomware IOC Database (7 families)
+            - Multi-Agent Collaboration System
+            - Nuclei Template Integration
+            
+            ### Installation
+            ```bash
+            pip install -r requirements.txt
+            ```
+            
+            ### Usage
+            ```bash
+            python -m zen_ai_pentest --help
+            ```
+            
+            See [README.md](README.md) for full documentation.
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/
+          asset_name: zen-ai-pentest-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
