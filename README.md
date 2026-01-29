@@ -17,6 +17,9 @@
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Modules](#modules)
+- [CVE & Ransomware Database](#cve--ransomware-database)
+- [SQL Injection Database](#sql-injection-database)
+- [Nuclei Integration](#nuclei-integration)
 - [API Backends](#api-backends)
 - [Contributing](#contributing)
 
@@ -28,7 +31,9 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 
 - 🔗 **Multi-LLM Integration** - Seamlessly switches between DuckDuckGo AI, OpenRouter, ChatGPT, and Claude
 - 🧠 **AI-Powered Analysis** - Intelligent vulnerability detection and exploit suggestion
-- 📊 **Automated Reporting** - Generate professional pentest reports in multiple formats
+- 📊 **Comprehensive Databases** - Built-in CVE, Ransomware, and SQL Injection payload databases
+- 🔍 **Nuclei Integration** - Automated vulnerability scanning with Nuclei templates
+- 📄 **Automated Reporting** - Generate professional pentest reports in multiple formats
 - 🎭 **Stealth Operations** - Built-in stealth features for covert testing
 - ⚡ **Async Architecture** - High-performance asynchronous operations
 - 🔧 **Modular Design** - Easy to extend with custom modules
@@ -43,66 +48,46 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 | Reconnaissance | AI-powered target reconnaissance and attack vector identification | ✅ |
 | Vulnerability Analysis | Intelligent analysis of scan results (nmap, web headers, etc.) | ✅ |
 | Exploit Assistance | Payload generation and exploit technique suggestions | ✅ |
+| **CVE Database** | Comprehensive CVE and ransomware database (NotPetya, WannaCry, etc.) | ✅ |
+| **SQL Injection DB** | 50+ payloads for 6 database types | ✅ |
+| **Nuclei Integration** | Template management and automated scanning | ✅ |
 | Report Generation | Professional markdown, JSON, CSV, and HTML reports | ✅ |
 | Session Management | Persistent sessions for authenticated backends | ✅ |
 | Stealth Mode | Random delays, user-agent rotation, and evasion techniques | ✅ |
 | Interactive CLI | User-friendly command-line interface | ✅ |
 
-### Penetration Testing Modules
-
-#### 1. 🔍 Reconnaissance Module (`modules/recon.py`)
-- DNS enumeration and analysis
-- Subdomain discovery
-- WHOIS information gathering
-- Nmap command optimization
-- Attack vector identification via LLM
-
-#### 2. 🐛 Vulnerability Scanner (`modules/vuln_scanner.py`)
-- Nmap output analysis
-- HTTP security header assessment
-- Web page content analysis
-- CVE database lookups
-- SSL/TLS configuration review
-- Severity-based prioritization
-
-#### 3. 💥 Exploit Assistance (`modules/exploit_assist.py`)
-- Exploit technique suggestions
-- SQL injection payload generation
-- XSS proof-of-concept creation
-- Post-exploitation guidance
-- Security control bypass techniques
-
-#### 4. 📄 Report Generator (`modules/report_gen.py`)
-- Executive summaries
-- Technical findings reports
-- Remediation roadmaps
-- Compliance mapping (NIST, ISO27001, etc.)
-- Multiple export formats
-
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Zen AI Pentest                           │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │   Recon     │  │  Vuln Scan  │  │  Exploit Assist     │  │
-│  │   Module    │  │   Module    │  │     Module          │  │
-│  └──────┬──────┘  └──────┬──────┘  └──────────┬──────────┘  │
-│         └─────────────────┼────────────────────┘             │
-│                           │                                  │
-│                    ┌──────┴──────┐                          │
-│                    │ ZenOrchestrator│                        │
-│                    │   (Router)     │                        │
-│                    └──────┬──────┘                          │
-│                           │                                  │
-│         ┌─────────────────┼─────────────────┐               │
-│         │                 │                 │                │
-│    ┌────┴────┐      ┌────┴────┐      ┌────┴────┐           │
-│    │  DDG    │      │OpenRouter│      │ Direct  │           │
-│    │ (Free)  │      │(Free Tier)│      │  APIs   │           │
-│    └─────────┘      └─────────┘      └─────────┘           │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                        Zen AI Pentest                           │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │    Recon     │  │  Vuln Scan   │  │   Exploit Assist     │  │
+│  │    Module    │  │   Module     │  │      Module          │  │
+│  └──────┬───────┘  └──────┬───────┘  └──────────┬───────────┘  │
+│         └──────────────────┼─────────────────────┘              │
+│                            │                                    │
+│         ┌──────────────────┼──────────────────┐                │
+│         │                  │                  │                 │
+│  ┌──────┴──────┐  ┌────────┴────────┐  ┌─────┴──────┐          │
+│  │   CVE DB    │  │   SQLi DB       │  │  Nuclei    │          │
+│  │ (Ransomware)│  │ (Payloads)      │  │ Integration│          │
+│  └──────┬──────┘  └────────┬────────┘  └─────┬──────┘          │
+│         └──────────────────┼──────────────────┘                 │
+│                            │                                    │
+│                     ┌──────┴──────┐                            │
+│                     │ZenOrchestrator│                           │
+│                     │   (Router)    │                           │
+│                     └──────┬──────┘                            │
+│                            │                                    │
+│         ┌──────────────────┼──────────────────┐                │
+│         │                  │                  │                 │
+│    ┌────┴────┐       ┌────┴────┐       ┌────┴────┐            │
+│    │   DDG   │       │OpenRouter│       │ Direct  │            │
+│    │  (Free) │       │Free Tier │       │  APIs   │            │
+│    └─────────┘       └─────────┘       └─────────┘            │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ## 📦 Installation
@@ -111,6 +96,7 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 
 - Python 3.8 or higher
 - pip or pip3
+- Nuclei (optional, for vulnerability scanning)
 
 ### Quick Install
 
@@ -126,6 +112,9 @@ source venv/bin/activate  # Linux/Mac
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Install Nuclei (optional)
+# See: https://nuclei.projectdiscovery.io/
 ```
 
 ### Verify Installation
@@ -160,37 +149,73 @@ Edit `config.json` to add your API keys:
 }
 ```
 
-### Getting API Tokens
-
-#### DuckDuckGo AI
-- ✅ No configuration required - works out of the box
-- Limited to ~50-100 requests per day
-
-#### OpenRouter (Recommended)
-1. Visit [openrouter.ai](https://openrouter.ai)
-2. Create a free account
-3. Generate an API key
-4. Add to `config.json`
-
-#### ChatGPT Direct (Optional)
-1. Login to ChatGPT in your browser
-2. Open DevTools (F12) → Application → Cookies
-3. Copy `__Secure-next-auth.session-token`
-4. Paste into `config.json`
-5. Token lasts 2-4 weeks
-
-#### Claude Direct (Optional)
-1. Login to Claude.ai in your browser
-2. Open DevTools → Application → Cookies
-3. Copy `sessionKey` cookie
-4. Paste into `config.json`
-
 ## 🚀 Usage
 
 ### Interactive Mode
 
 ```bash
 python zen_ai_pentest.py --interactive
+```
+
+### CVE & Ransomware Database Query
+
+```python
+from modules.cve_database import CVEDatabase
+
+cve_db = CVEDatabase()
+
+# Search for specific CVE
+cve = cve_db.search_cve("CVE-2017-0144")
+print(f"{cve.cve_id}: {cve.name} (CVSS: {cve.cvss_score})")
+
+# Check for ransomware
+ransomware = cve_db.search_ransomware("WannaCry")
+print(f"Decryptable: {ransomware.decryptable}")
+
+# Get IOCs
+iocs = cve_db.get_ransomware_iocs("NotPetya")
+print(iocs["hashes"])
+```
+
+### SQL Injection Testing
+
+```python
+from modules.sql_injection_db import SQLInjectionDatabase, DBType, SQLITechnique
+
+sqli_db = SQLInjectionDatabase()
+
+# Get MySQL time-based payloads
+payloads = sqli_db.get_payloads(
+    db_type=DBType.MYSQL,
+    technique=SQLITechnique.BLIND_TIME
+)
+
+for payload in payloads:
+    print(f"{payload.name}: {payload.payload}")
+
+# Generate WAF bypass variants
+variants = sqli_db.generate_waf_bypass_variants("' OR 1=1--")
+```
+
+### Nuclei Integration
+
+```python
+from modules.nuclei_integration import NucleiIntegration
+
+nuclei = NucleiIntegration(orchestrator)
+
+# Update templates
+await nuclei.update_templates()
+
+# Scan target
+findings = await nuclei.scan_target(
+    target="example.com",
+    severity=["critical", "high"],
+    tags=["cve", "panel"]
+)
+
+# Export results
+nuclei.export_results(findings)
 ```
 
 ### Quick Start Examples
@@ -227,36 +252,82 @@ zen-ai> analyze scan.txt
     [Medium] Missing Security Headers
     [Low] Directory Listing Enabled
 
-zen-ai> exploit "Outdated Apache" "apache"
-[+] Generating exploit suggestions...
+zen-ai> exploit "CVE-2017-0144" "smb"
+[+] Generating exploit suggestions for EternalBlue...
+[+] Ransomware using this CVE: WannaCry, NotPetya
 
 zen-ai> report example.com
 [+] Markdown report saved: logs/report_example.com_20240129_143022.md
 [+] JSON export saved: logs/report_20240129_143022.json
 ```
 
-### Python API Usage
+## 🔌 CVE & Ransomware Database
 
-```python
-import asyncio
-from zen_ai_pentest import ZenAIPentest
+### Supported Ransomware Families
 
-async def main():
-    # Initialize app
-    app = ZenAIPentest(config_path="config.json")
-    await app.initialize_backends()
-    
-    # Run reconnaissance
-    recon_results = await app.run_recon("example.com")
-    
-    # Analyze findings
-    vulns = await app.vuln_scanner.analyze_nmap_output(nmap_data)
-    
-    # Generate report
-    report = await app.generate_report("example.com")
-    
-asyncio.run(main())
-```
+| Ransomware | First Seen | Associated CVEs | Decryptable |
+|------------|------------|-----------------|-------------|
+| **NotPetya** | 2017-06 | CVE-2017-0144/45/46/47/48 | ❌ |
+| **WannaCry** | 2017-05 | CVE-2017-0144 | ❌ |
+| **Bad Rabbit** | 2017-10 | - | ❌ |
+| **Ryuk** | 2018-08 | - | ❌ |
+| **Sodinokibi/REvil** | 2019-04 | CVE-2019-2725, CVE-2019-11510 | ✅ |
+| **DarkSide** | 2020-08 | - | ✅ |
+
+### Database Features
+
+- **IOCs**: File hashes, registry keys, network indicators
+- **Exploit Chains**: Common attack progressions
+- **Mitigation**: Specific countermeasures
+- **Detection**: SIEM rules and monitoring strategies
+- **AI Analysis**: LLM-powered threat assessment
+
+## 💉 SQL Injection Database
+
+### Database Support
+
+- MySQL/MariaDB
+- PostgreSQL
+- Microsoft SQL Server
+- Oracle Database
+- SQLite
+- MongoDB (NoSQL)
+
+### Techniques Covered
+
+1. **Error-Based** - Extract data via error messages
+2. **Union-Based** - Use UNION SELECT for data extraction
+3. **Boolean Blind** - True/false inference
+4. **Time-Based Blind** - Delay-based extraction
+5. **Stacked Queries** - Execute multiple statements
+6. **Out-of-Band** - DNS/HTTP exfiltration
+
+### WAF Bypass Features
+
+- URL encoding (single/double)
+- Base64 encoding
+- Unicode normalization
+- Comment injection
+- Case variation
+- Space alternatives
+
+## 🔍 Nuclei Integration
+
+### Features
+
+- Template management
+- Automated scanning
+- AI-powered result analysis
+- Export to multiple formats
+- Severity-based filtering
+
+### Critical CVE Templates Included
+
+- CVE-2017-0144 (EternalBlue)
+- CVE-2021-44228 (Log4Shell)
+- CVE-2019-11510 (Pulse Secure)
+- CVE-2020-1472 (Zerologon)
+- CVE-2021-26855 (ProxyLogon)
 
 ## 🔌 API Backends
 
@@ -288,32 +359,31 @@ result = await orchestrator.process(prompt, QualityLevel.HIGH)
 
 ```
 zen-ai-pentest/
-├── core/
-│   ├── __init__.py
-│   └── orchestrator.py          # Main routing logic
-├── backends/
-│   ├── __init__.py
-│   ├── duckduckgo.py           # DDG AI backend
-│   ├── openrouter.py           # OpenRouter backend
-│   ├── chatgpt_direct.py       # ChatGPT API
-│   └── claude_direct.py        # Claude API
-├── modules/
-│   ├── __init__.py
-│   ├── recon.py                # Reconnaissance
-│   ├── vuln_scanner.py         # Vulnerability analysis
-│   ├── exploit_assist.py       # Exploit suggestions
-│   └── report_gen.py           # Report generation
-├── utils/
-│   ├── __init__.py
-│   ├── helpers.py              # Utility functions
-│   └── stealth.py              # Stealth utilities
-├── sessions/                    # Session storage
-├── logs/                        # Log files and reports
-├── tests/                       # Unit tests
-├── zen_ai_pentest.py           # Main entry point
-├── config.json                 # Configuration
-├── requirements.txt            # Dependencies
-└── README.md                   # This file
+├── core/                       # Core orchestrator
+├── backends/                   # LLM backends (4x)
+├── modules/                    # Penetration Testing (7x)
+│   ├── recon.py
+│   ├── vuln_scanner.py
+│   ├── exploit_assist.py
+│   ├── report_gen.py
+│   ├── nuclei_integration.py   # NEW
+│   ├── sql_injection_db.py     # NEW
+│   └── cve_database.py         # NEW
+├── data/                       # NEW: Databases
+│   ├── cve_db/
+│   │   └── ransomware_cves.json
+│   ├── nuclei_templates/
+│   └── payloads/
+├── utils/                      # Helper utilities
+├── examples/                   # Example scripts
+├── sessions/                   # Session storage
+├── logs/                       # Reports & logs
+├── tests/                      # Unit tests
+├── zen_ai_pentest.py          # Main entry point
+├── README.md
+├── LICENSE
+├── setup.py
+└── requirements.txt
 ```
 
 ## 🤝 Contributing
@@ -345,6 +415,8 @@ This tool is intended for authorized security testing only. Users are responsibl
 
 **Only use Zen AI Pentest on systems you have explicit written permission to test.**
 
+The CVE and exploit information provided is for educational and defensive purposes only.
+
 ## 📜 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
@@ -353,6 +425,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 - DuckDuckGo for their free AI chat API
 - OpenRouter for unified LLM access
+- ProjectDiscovery for Nuclei scanner
 - The security community for continuous research
 
 ## 📧 Contact
