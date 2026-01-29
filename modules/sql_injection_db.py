@@ -2,7 +2,7 @@
 """
 SQL Injection Database Module
 Comprehensive SQL injection payloads, techniques and detection
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

@@ -123,6 +123,6 @@ By contributing, you agree that your contributions will be licensed under the MI
 ## ❓ Questions?
 
 - Open a GitHub Discussion
-- Contact: SHADDOWTAKA
+- Contact: SHAdd0WTAka
 
 Thank you for contributing! 🎉

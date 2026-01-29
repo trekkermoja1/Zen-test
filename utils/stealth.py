@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Stealth and evasion utilities
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import random

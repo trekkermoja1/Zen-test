@@ -2,7 +2,7 @@
 """
 AsyncIO Fixes for Windows/Python 3.13 compatibility
 Handles ProactorEventLoop shutdown errors
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

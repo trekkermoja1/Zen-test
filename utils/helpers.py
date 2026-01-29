@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Helper utilities for Zen AI Pentest
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import json
@@ -177,7 +177,7 @@ def banner():
 ╚══════╝╚══════╝╚═╝  ╚═══╝    ╚═╝  ╚═╝╚═╝
                                           
     🛡️  AI-Powered Penetration Testing  🛡️
-          Author: SHADDOWTAKA
+          Author: SHAdd0WTAka
              Version: 1.0.0
 """
 

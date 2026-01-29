@@ -2,7 +2,7 @@ id: wp-login-brute
 
 info:
   name: WordPress Login Brute Force Detection
-  author: SHADDOWTAKA
+  author: SHAdd0WTAka
   severity: medium
   description: |
     WordPress login page is accessible and may be vulnerable to brute force attacks.

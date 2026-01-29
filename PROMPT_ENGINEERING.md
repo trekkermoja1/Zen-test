@@ -431,5 +431,5 @@ Include:
 
 **Note**: This prompt engineering approach is based on the universal principles discussed in the original system prompt research, adapted specifically for penetration testing workflows.
 
-**Author**: SHADDOWTAKA  
+**Author**: SHAdd0WTAka  
 **Version**: 1.0.0

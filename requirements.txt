@@ -1,5 +1,5 @@
 # Zen AI Pentest Requirements
-# Author: SHADDOWTAKA
+# Author: SHAdd0WTAka
 
 # Core async HTTP client
 aiohttp>=3.8.0

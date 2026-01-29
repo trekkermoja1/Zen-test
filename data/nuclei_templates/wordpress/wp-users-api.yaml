@@ -2,7 +2,7 @@ id: wp-users-api
 
 info:
   name: WordPress User Enumeration via REST API
-  author: SHADDOWTAKA
+  author: SHAdd0WTAka
   severity: medium
   description: |
     WordPress REST API exposes user information through the /wp-json/wp/v2/users endpoint.

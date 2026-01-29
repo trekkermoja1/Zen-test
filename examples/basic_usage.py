@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Basic Usage Example for Zen AI Pentest
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

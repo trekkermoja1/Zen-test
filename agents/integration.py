@@ -2,7 +2,7 @@
 """
 Integration Module - Connect Multi-Agent System to Zen AI Pentest
 Provides easy interface for pentesters to use agent collaboration
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

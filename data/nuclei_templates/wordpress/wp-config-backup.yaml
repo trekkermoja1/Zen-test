@@ -2,7 +2,7 @@ id: wp-config-backup
 
 info:
   name: WordPress Configuration File Backup Exposure
-  author: SHADDOWTAKA
+  author: SHAdd0WTAka
   severity: critical
   description: |
     WordPress configuration file backups are publicly accessible.

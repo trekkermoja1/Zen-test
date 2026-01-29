@@ -2,7 +2,7 @@
 Multi-Agent Collaboration System for Zen AI Pentest
 Inspired by Clawed/Moltbot architecture
 Agents can communicate, share context, and coordinate research
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 from .agent_base import BaseAgent, AgentRole, AgentMessage

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Test async fixes for Windows/Python 3.13 compatibility
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

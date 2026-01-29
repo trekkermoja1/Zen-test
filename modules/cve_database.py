@@ -2,7 +2,7 @@
 """
 CVE Database Module
 Comprehensive CVE database with ransomware and exploit information
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import json

@@ -2,7 +2,7 @@
 """
 Analysis Agent - Specializes in analyzing data and finding patterns
 Part of the Multi-Agent Collaboration System
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

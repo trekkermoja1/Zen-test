@@ -2,7 +2,7 @@ id: wp-debug-log
 
 info:
   name: WordPress Debug Log Exposure
-  author: SHADDOWTAKA
+  author: SHAdd0WTAka
   severity: high
   description: |
     WordPress debug log file is publicly accessible, potentially exposing

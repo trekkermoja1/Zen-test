@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Setup script for Zen AI Pentest
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 from setuptools import setup, find_packages
@@ -15,12 +15,12 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="zen-ai-pentest",
     version="1.0.0",
-    author="SHADDOWTAKA",
-    author_email="shaddowtaka@example.com",
+    author="SHAdd0WTAka",
+    author_email="SHAdd0WTAka@example.com",
     description="Multi-LLM Penetration Testing Intelligence System",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SHADDOWTAKA/zen-ai-pentest",
+    url="https://github.com/SHAdd0WTAka/zen-ai-pentest",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",

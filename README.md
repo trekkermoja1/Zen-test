@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Author](https://img.shields.io/badge/Author-SHADDOWTAKA-red.svg)](#)
+[![Author](https://img.shields.io/badge/Author-SHAdd0WTAka-red.svg)](#)
 
 > ⚠️ **DISCLAIMER**: This tool is for authorized security testing only. Always obtain proper permission before testing any systems you do not own.
 
@@ -108,7 +108,7 @@ Zen AI Pentest is an advanced penetration testing framework that leverages multi
 
 ```bash
 # Clone the repository
-git clone https://github.com/SHADDOWTAKA/zen-ai-pentest.git
+git clone https://github.com/SHAdd0WTAka/zen-ai-pentest.git
 cd zen-ai-pentest
 
 # Create virtual environment (recommended)
@@ -577,7 +577,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 📧 Contact
 
-**Author:** SHADDOWTAKA
+**Author:** SHAdd0WTAka
 
 For questions, issues, or contributions, please use GitHub issues.
 

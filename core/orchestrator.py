@@ -2,7 +2,7 @@
 """
 Zen AI Hybrid Orchestrator
 Multi-LLM Routing System with Penetration Testing Capabilities
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

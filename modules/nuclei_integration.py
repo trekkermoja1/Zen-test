@@ -2,7 +2,7 @@
 """
 Nuclei Integration Module
 Template management and vulnerability scanning with Nuclei
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

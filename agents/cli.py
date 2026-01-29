@@ -2,7 +2,7 @@
 """
 CLI Interface for Multi-Agent System
 Interactive commands for managing agents
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

@@ -2,7 +2,7 @@
 """
 CVE and Ransomware Database Demo
 Demonstrates the capabilities of the CVE and SQL Injection databases
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

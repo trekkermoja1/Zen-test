@@ -2,7 +2,7 @@
 """
 Vulnerability Scanner Module
 AI-powered vulnerability analysis and scanning
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

@@ -2,7 +2,7 @@
 """
 Base Agent Class for Multi-Agent System
 Provides messaging, context sharing, and role-based capabilities
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

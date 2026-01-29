@@ -3,7 +3,7 @@
 Agent Orchestrator
 Manages multiple agents, routes messages, coordinates research
 Like Clawed/Moltbot but for penetration testing
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

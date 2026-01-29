@@ -2,7 +2,7 @@ id: wp-xmlrpc-pingback
 
 info:
   name: WordPress XML-RPC Pingback Detection
-  author: SHADDOWTAKA
+  author: SHAdd0WTAka
   severity: high
   description: |
     WordPress XML-RPC interface is enabled with pingback functionality.

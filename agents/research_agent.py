@@ -2,7 +2,7 @@
 """
 Research Agent - Specializes in reconnaissance and information gathering
 Part of the Multi-Agent Collaboration System
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio

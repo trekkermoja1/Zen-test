@@ -2,7 +2,7 @@
 """
 Reconnaissance Module
 Intelligent target reconnaissance using LLM analysis
-Author: SHADDOWTAKA
+Author: SHAdd0WTAka
 """
 
 import asyncio
