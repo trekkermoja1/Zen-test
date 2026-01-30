@@ -5,7 +5,8 @@ Control Proton VPN integration for secure anonymous scanning.
 """
 
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, status
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from api.core.auth import get_current_user
@@ -18,6 +19,7 @@ vpn_manager = ProtonVPNManager()
 
 class VPNStatusResponse(BaseModel):
     """VPN connection status"""
+
     connected: bool
     server_ip: Optional[str]
     server_location: Optional[str]
@@ -30,7 +32,10 @@ class VPNStatusResponse(BaseModel):
 
 class VPNConnectRequest(BaseModel):
     """VPN connection request"""
-    country: str = Field(default="CH", description="ISO country code (CH, NL, SE, etc.)")
+
+    country: str = Field(
+        default="CH", description="ISO country code (CH, NL, SE, etc.)"
+    )
     protocol: VPNProtocol = Field(default=VPNProtocol.WIREGUARD)
     security_level: VPNSecurityLevel = Field(default=VPNSecurityLevel.STANDARD)
     p2p: bool = Field(default=False)
@@ -39,6 +44,7 @@ class VPNConnectRequest(BaseModel):
 
 class ServerInfo(BaseModel):
     """VPN server information"""
+
     name: str
     country: str
     city: Optional[str]
@@ -57,11 +63,11 @@ async def get_vpn_status(current_user: User = Depends(get_current_user)):
 async def connect_vpn(
     request: VPNConnectRequest,
     background_tasks: BackgroundTasks,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Connect to Proton VPN.
-    
+
     - **country**: Target country code (CH=Swiss, NL=Netherlands, etc.)
     - **protocol**: WireGuard (fast), OpenVPN-TCP/UDP
     - **security_level**: Standard, Secure-Core (multi-hop), Tor, P2P
@@ -73,7 +79,7 @@ async def connect_vpn(
             protocol=request.protocol,
             security_level=request.security_level,
             p2p=request.p2p,
-            kill_switch=request.kill_switch
+            kill_switch=request.kill_switch,
         )
         return status.to_dict()
     except Exception as e:
@@ -92,67 +98,64 @@ async def disconnect_vpn(current_user: User = Depends(get_current_user)):
 
 @router.post("/rotate")
 async def rotate_vpn_ip(
-    country: Optional[str] = None,
-    current_user: User = Depends(get_current_user)
+    country: Optional[str] = None, current_user: User = Depends(get_current_user)
 ):
     """Rotate VPN IP address (disconnect and reconnect)"""
     try:
         status = await vpn_manager.rotate_ip(country=country)
-        return {
-            "message": "IP rotated successfully",
-            "status": status.to_dict()
-        }
+        return {"message": "IP rotated successfully", "status": status.to_dict()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"IP rotation failed: {str(e)}")
 
 
 @router.get("/servers", response_model=List[ServerInfo])
 async def list_servers(
-    country: Optional[str] = None,
-    current_user: User = Depends(get_current_user)
+    country: Optional[str] = None, current_user: User = Depends(get_current_user)
 ):
     """List available VPN servers"""
     servers = await vpn_manager.get_server_list(country=country)
-    return [{
-        "name": s.name,
-        "country": s.country,
-        "city": s.city,
-        "load": s.load,
-        "features": s.features
-    } for s in servers]
+    return [
+        {
+            "name": s.name,
+            "country": s.country,
+            "city": s.city,
+            "load": s.load,
+            "features": s.features,
+        }
+        for s in servers
+    ]
 
 
 @router.get("/servers/recommended")
 async def get_recommended_server(
-    purpose: str = "general",
-    current_user: User = Depends(get_current_user)
+    purpose: str = "general", current_user: User = Depends(get_current_user)
 ):
     """
     Get recommended server for specific purpose.
-    
+
     - **purpose**: general, pentest, c2, fileshare
     """
     require_p2p = purpose == "fileshare"
     require_secure_core = purpose == "pentest"
-    
+
     server = await vpn_manager.recommend_server(
         purpose=purpose,
         require_p2p=require_p2p,
-        require_secure_core=require_secure_core
+        require_secure_core=require_secure_core,
     )
-    
+
     if not server:
         raise HTTPException(status_code=404, detail="No suitable server found")
-    
+
     return {
         "recommended": {
             "name": server.name,
             "country": server.country,
             "city": server.city,
             "load": server.load,
-            "features": server.features
+            "features": server.features,
         },
-        "purpose": purpose
+        "purpose": purpose,
     }
 
 
@@ -165,8 +168,7 @@ async def test_vpn_leaks(current_user: User = Depends(get_current_user)):
 
 @router.get("/history")
 async def get_connection_history(
-    limit: int = 50,
-    current_user: User = Depends(get_current_user)
+    limit: int = 50, current_user: User = Depends(get_current_user)
 ):
     """Get VPN connection history"""
     history = vpn_manager.get_connection_history()
@@ -177,7 +179,4 @@ async def get_connection_history(
 async def check_public_ip(current_user: User = Depends(get_current_user)):
     """Check current public IP address"""
     ip = await vpn_manager.get_public_ip()
-    return {
-        "public_ip": ip,
-        "vpn_connected": vpn_manager.is_connected()
-    }
+    return {"public_ip": ip, "vpn_connected": vpn_manager.is_connected()}
