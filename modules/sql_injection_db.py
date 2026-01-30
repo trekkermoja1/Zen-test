@@ -7,29 +7,31 @@ Author: SHAdd0WTAka
 
 import asyncio
 import base64
+import logging
 import urllib.parse
-from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger("ZenAI")
 
 
 class DBType(Enum):
     """Database types"""
+
     MYSQL = "mysql"
     POSTGRESQL = "postgresql"
     MSSQL = "mssql"
     ORACLE = "oracle"
     SQLITE = "sqlite"
     MONGODB = "mongodb"  # NoSQL
-    REDIS = "redis"      # NoSQL
+    REDIS = "redis"  # NoSQL
     GENERIC = "generic"
 
 
 class SQLITechnique(Enum):
     """SQL Injection techniques"""
+
     ERROR_BASED = "error_based"
     UNION_BASED = "union_based"
     BLIND_BOOLEAN = "blind_boolean"
@@ -41,6 +43,7 @@ class SQLITechnique(Enum):
 @dataclass
 class SQLPayload:
     """SQL Injection payload"""
+
     name: str
     payload: str
     technique: SQLITechnique
@@ -54,6 +57,7 @@ class SQLPayload:
 @dataclass
 class SQLInjectionFinding:
     """SQL Injection finding"""
+
     url: str
     parameter: str
     technique: SQLITechnique
@@ -68,21 +72,23 @@ class SQLInjectionDatabase:
     Comprehensive SQL Injection Database
     Contains payloads for various databases and techniques
     """
-    
+
     def __init__(self, orchestrator=None):
         self.orchestrator = orchestrator
         self.payloads = self._initialize_payloads()
         self.findings = []
-        
-    def _initialize_payloads(self) -> Dict[DBType, Dict[SQLITechnique, List[SQLPayload]]]:
+
+    def _initialize_payloads(
+        self,
+    ) -> Dict[DBType, Dict[SQLITechnique, List[SQLPayload]]]:
         """Initialize the payload database"""
         payloads = {}
-        
+
         for db in DBType:
             payloads[db] = {}
             for tech in SQLITechnique:
                 payloads[db][tech] = []
-                
+
         # === MySQL Payloads ===
         payloads[DBType.MYSQL][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -92,7 +98,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Basic error detection with single quote",
-                expected_result="MySQL error message revealing SQL syntax"
+                expected_result="MySQL error message revealing SQL syntax",
             ),
             SQLPayload(
                 name="MySQL Error - Double Quote",
@@ -101,7 +107,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Error detection with double quote",
-                expected_result="MySQL error message"
+                expected_result="MySQL error message",
             ),
             SQLPayload(
                 name="MySQL Error - AND 1=1",
@@ -110,7 +116,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="High",
                 description="Boolean-based detection",
-                expected_result="Query executes normally"
+                expected_result="Query executes normally",
             ),
             SQLPayload(
                 name="MySQL Error - AND 1=2",
@@ -119,7 +125,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="High",
                 description="Boolean-based false condition",
-                expected_result="No results or different page"
+                expected_result="No results or different page",
             ),
             SQLPayload(
                 name="MySQL Error - Divide by Zero",
@@ -128,10 +134,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="High",
                 description="Generate error via divide by zero",
-                expected_result="Division by zero error"
+                expected_result="Division by zero error",
             ),
         ]
-        
+
         payloads[DBType.MYSQL][SQLITechnique.UNION_BASED] = [
             SQLPayload(
                 name="MySQL Union - 1 Column",
@@ -140,7 +146,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Union select with 1 column",
-                expected_result="Union query executed"
+                expected_result="Union query executed",
             ),
             SQLPayload(
                 name="MySQL Union - Version",
@@ -149,7 +155,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Extract database version",
-                expected_result="MySQL version displayed"
+                expected_result="MySQL version displayed",
             ),
             SQLPayload(
                 name="MySQL Union - User",
@@ -158,7 +164,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Extract current user",
-                expected_result="Database username"
+                expected_result="Database username",
             ),
             SQLPayload(
                 name="MySQL Union - Database",
@@ -167,7 +173,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Extract database name",
-                expected_result="Database name displayed"
+                expected_result="Database name displayed",
             ),
             SQLPayload(
                 name="MySQL Union - All Tables",
@@ -176,7 +182,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Extract all table names",
-                expected_result="List of tables"
+                expected_result="List of tables",
             ),
             SQLPayload(
                 name="MySQL Union - Columns from Table",
@@ -185,7 +191,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Extract column names from users table",
-                expected_result="List of columns"
+                expected_result="List of columns",
             ),
             SQLPayload(
                 name="MySQL Union - Dump Users",
@@ -194,10 +200,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Dump username and password from users table",
-                expected_result="User credentials"
+                expected_result="User credentials",
             ),
         ]
-        
+
         payloads[DBType.MYSQL][SQLITechnique.BLIND_TIME] = [
             SQLPayload(
                 name="MySQL Time - Sleep 5",
@@ -206,7 +212,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Time-based detection with 5 second delay",
-                expected_result="Response delayed by 5 seconds"
+                expected_result="Response delayed by 5 seconds",
             ),
             SQLPayload(
                 name="MySQL Time - Benchmark",
@@ -215,7 +221,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="CPU-intensive benchmark for time delay",
-                expected_result="Response delayed due to CPU load"
+                expected_result="Response delayed due to CPU load",
             ),
             SQLPayload(
                 name="MySQL Time - Conditional",
@@ -224,10 +230,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Conditional time delay",
-                expected_result="5 second delay if condition is true"
+                expected_result="5 second delay if condition is true",
             ),
         ]
-        
+
         payloads[DBType.MYSQL][SQLITechnique.BLIND_BOOLEAN] = [
             SQLPayload(
                 name="MySQL Boolean - Length Check",
@@ -236,7 +242,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="High",
                 description="Check database name length",
-                expected_result="True if database name length matches"
+                expected_result="True if database name length matches",
             ),
             SQLPayload(
                 name="MySQL Boolean - Substring",
@@ -245,10 +251,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="High",
                 description="Extract database name character by character",
-                expected_result="True if character matches"
+                expected_result="True if character matches",
             ),
         ]
-        
+
         payloads[DBType.MYSQL][SQLITechnique.STACKED_QUERIES] = [
             SQLPayload(
                 name="MySQL Stacked - Drop Table",
@@ -257,7 +263,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Stacked query to drop table (destructive!)",
-                expected_result="Table dropped (test in safe environment only)"
+                expected_result="Table dropped (test in safe environment only)",
             ),
             SQLPayload(
                 name="MySQL Stacked - Create User",
@@ -266,10 +272,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MYSQL,
                 severity="Critical",
                 description="Create backdoor user",
-                expected_result="New user created"
+                expected_result="New user created",
             ),
         ]
-        
+
         # === PostgreSQL Payloads ===
         payloads[DBType.POSTGRESQL][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -279,7 +285,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="PostgreSQL cast error",
-                expected_result="PostgreSQL type cast error"
+                expected_result="PostgreSQL type cast error",
             ),
             SQLPayload(
                 name="PostgreSQL Error - Version",
@@ -288,10 +294,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="High",
                 description="Extract version via concatenation",
-                expected_result="PostgreSQL version in error"
+                expected_result="PostgreSQL version in error",
             ),
         ]
-        
+
         payloads[DBType.POSTGRESQL][SQLITechnique.UNION_BASED] = [
             SQLPayload(
                 name="PostgreSQL Union - Version",
@@ -300,7 +306,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="Extract PostgreSQL version",
-                expected_result="PostgreSQL version"
+                expected_result="PostgreSQL version",
             ),
             SQLPayload(
                 name="PostgreSQL Union - Current User",
@@ -309,7 +315,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="Extract current user",
-                expected_result="Current database user"
+                expected_result="Current database user",
             ),
             SQLPayload(
                 name="PostgreSQL Union - Tables",
@@ -318,10 +324,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="Extract all table names",
-                expected_result="List of tables"
+                expected_result="List of tables",
             ),
         ]
-        
+
         payloads[DBType.POSTGRESQL][SQLITechnique.BLIND_TIME] = [
             SQLPayload(
                 name="PostgreSQL Time - Sleep",
@@ -330,7 +336,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="Time-based with pg_sleep",
-                expected_result="5 second delay"
+                expected_result="5 second delay",
             ),
             SQLPayload(
                 name="PostgreSQL Time - Heavy Query",
@@ -339,10 +345,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.POSTGRESQL,
                 severity="Critical",
                 description="CPU-intensive query for delay",
-                expected_result="Response delayed"
+                expected_result="Response delayed",
             ),
         ]
-        
+
         # === MSSQL Payloads ===
         payloads[DBType.MSSQL][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -352,7 +358,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="MSSQL convert error reveals version",
-                expected_result="MSSQL version in error"
+                expected_result="MSSQL version in error",
             ),
             SQLPayload(
                 name="MSSQL Error - Cast",
@@ -361,10 +367,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="MSSQL cast error",
-                expected_result="MSSQL version in error"
+                expected_result="MSSQL version in error",
             ),
         ]
-        
+
         payloads[DBType.MSSQL][SQLITechnique.UNION_BASED] = [
             SQLPayload(
                 name="MSSQL Union - Version",
@@ -373,7 +379,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="Extract MSSQL version",
-                expected_result="SQL Server version"
+                expected_result="SQL Server version",
             ),
             SQLPayload(
                 name="MSSQL Union - User",
@@ -382,7 +388,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="Extract system user",
-                expected_result="Current system user"
+                expected_result="Current system user",
             ),
             SQLPayload(
                 name="MSSQL Union - Databases",
@@ -391,10 +397,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="List all databases",
-                expected_result="All database names"
+                expected_result="All database names",
             ),
         ]
-        
+
         payloads[DBType.MSSQL][SQLITechnique.BLIND_TIME] = [
             SQLPayload(
                 name="MSSQL Time - WAITFOR",
@@ -403,10 +409,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="Time-based with WAITFOR",
-                expected_result="5 second delay"
+                expected_result="5 second delay",
             ),
         ]
-        
+
         payloads[DBType.MSSQL][SQLITechnique.STACKED_QUERIES] = [
             SQLPayload(
                 name="MSSQL Stacked - Enable XP_CMDSHELL",
@@ -415,7 +421,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="Enable xp_cmdshell for RCE",
-                expected_result="xp_cmdshell enabled"
+                expected_result="xp_cmdshell enabled",
             ),
             SQLPayload(
                 name="MSSQL Stacked - Execute Command",
@@ -424,10 +430,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MSSQL,
                 severity="Critical",
                 description="Execute OS command via xp_cmdshell",
-                expected_result="Command output"
+                expected_result="Command output",
             ),
         ]
-        
+
         # === Oracle Payloads ===
         payloads[DBType.ORACLE][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -437,10 +443,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.ORACLE,
                 severity="Critical",
                 description="Oracle error-based extraction",
-                expected_result="Oracle version in error"
+                expected_result="Oracle version in error",
             ),
         ]
-        
+
         payloads[DBType.ORACLE][SQLITechnique.UNION_BASED] = [
             SQLPayload(
                 name="Oracle Union - Version",
@@ -449,7 +455,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.ORACLE,
                 severity="Critical",
                 description="Extract Oracle version",
-                expected_result="Oracle version"
+                expected_result="Oracle version",
             ),
             SQLPayload(
                 name="Oracle Union - User",
@@ -458,10 +464,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.ORACLE,
                 severity="Critical",
                 description="Extract current user",
-                expected_result="Current Oracle user"
+                expected_result="Current Oracle user",
             ),
         ]
-        
+
         payloads[DBType.ORACLE][SQLITechnique.BLIND_TIME] = [
             SQLPayload(
                 name="Oracle Time - DBMS_LOCK",
@@ -470,10 +476,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.ORACLE,
                 severity="Critical",
                 description="Time-based with DBMS_LOCK.SLEEP",
-                expected_result="5 second delay"
+                expected_result="5 second delay",
             ),
         ]
-        
+
         # === SQLite Payloads ===
         payloads[DBType.SQLITE][SQLITechnique.UNION_BASED] = [
             SQLPayload(
@@ -483,7 +489,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.SQLITE,
                 severity="Critical",
                 description="Extract SQLite version",
-                expected_result="SQLite version"
+                expected_result="SQLite version",
             ),
             SQLPayload(
                 name="SQLite Union - Tables",
@@ -492,10 +498,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.SQLITE,
                 severity="Critical",
                 description="Extract table names",
-                expected_result="List of tables"
+                expected_result="List of tables",
             ),
         ]
-        
+
         # === NoSQL (MongoDB) Payloads ===
         payloads[DBType.MONGODB][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -505,7 +511,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MONGODB,
                 severity="Critical",
                 description="NoSQL injection with $ne operator",
-                expected_result="Authentication bypass"
+                expected_result="Authentication bypass",
             ),
             SQLPayload(
                 name="MongoDB - $gt Operator",
@@ -514,7 +520,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.MONGODB,
                 severity="Critical",
                 description="NoSQL injection with $gt operator",
-                expected_result="Authentication bypass"
+                expected_result="Authentication bypass",
             ),
             SQLPayload(
                 name="MongoDB - $regex",
@@ -523,10 +529,10 @@ class SQLInjectionDatabase:
                 db_type=DBType.MONGODB,
                 severity="Critical",
                 description="NoSQL injection with $regex",
-                expected_result="Authentication bypass"
+                expected_result="Authentication bypass",
             ),
         ]
-        
+
         # === Generic Payloads ===
         payloads[DBType.GENERIC][SQLITechnique.ERROR_BASED] = [
             SQLPayload(
@@ -536,7 +542,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.GENERIC,
                 severity="High",
                 description="Basic single quote test",
-                expected_result="SQL error"
+                expected_result="SQL error",
             ),
             SQLPayload(
                 name="Generic - Double Quote",
@@ -545,7 +551,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.GENERIC,
                 severity="High",
                 description="Double quote test",
-                expected_result="SQL error"
+                expected_result="SQL error",
             ),
             SQLPayload(
                 name="Generic - Backslash",
@@ -554,7 +560,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.GENERIC,
                 severity="High",
                 description="Backslash escape test",
-                expected_result="SQL error"
+                expected_result="SQL error",
             ),
             SQLPayload(
                 name="Generic - Comment",
@@ -563,7 +569,7 @@ class SQLInjectionDatabase:
                 db_type=DBType.GENERIC,
                 severity="Medium",
                 description="Comment injection",
-                expected_result="Query terminated"
+                expected_result="Query terminated",
             ),
             SQLPayload(
                 name="Generic - Semicolon",
@@ -572,27 +578,28 @@ class SQLInjectionDatabase:
                 db_type=DBType.GENERIC,
                 severity="High",
                 description="Stacked query attempt",
-                expected_result="Error or second query executed"
+                expected_result="Error or second query executed",
             ),
         ]
-        
+
         return payloads
-        
-    def get_payloads(self, db_type: DBType = None, 
-                    technique: SQLITechnique = None) -> List[SQLPayload]:
+
+    def get_payloads(
+        self, db_type: DBType = None, technique: SQLITechnique = None
+    ) -> List[SQLPayload]:
         """Get payloads filtered by database type and/or technique"""
         results = []
-        
+
         dbs = [db_type] if db_type else list(DBType)
         techs = [technique] if technique else list(SQLITechnique)
-        
+
         for db in dbs:
             for tech in techs:
                 if db in self.payloads and tech in self.payloads[db]:
                     results.extend(self.payloads[db][tech])
-                    
+
         return results
-        
+
     def encode_payload(self, payload: str, encoding: str) -> str:
         """Encode payload with various methods"""
         encodings = {
@@ -603,38 +610,38 @@ class SQLInjectionDatabase:
             "unicode": "".join([f"\\u{ord(c):04x}" for c in payload]),
         }
         return encodings.get(encoding, payload)
-        
+
     def generate_waf_bypass_variants(self, payload: str) -> List[str]:
         """Generate WAF bypass variants of a payload"""
         variants = [payload]
-        
+
         # Case variations
         variants.append(payload.replace("SELECT", "SeLeCt").replace("UNION", "UnIoN"))
-        
+
         # Space alternatives
         variants.append(payload.replace(" ", "/**/"))
         variants.append(payload.replace(" ", "%09"))
         variants.append(payload.replace(" ", "%0a"))
-        
+
         # Comment injection
         variants.append(payload.replace(" ", "/*!50000*/"))
-        
+
         # URL encoding
         variants.append(urllib.parse.quote(payload))
-        
+
         # Double encoding
         variants.append(urllib.parse.quote(urllib.parse.quote(payload)))
-        
+
         # Unicode normalization
         variants.append(payload.replace("'", "%ef%bc%87"))  # Fullwidth apostrophe
-        
+
         return list(set(variants))  # Remove duplicates
-        
-    async def analyze_response(self, original_response: str, 
-                              modified_response: str,
-                              payload: str) -> Optional[SQLInjectionFinding]:
+
+    async def analyze_response(
+        self, original_response: str, modified_response: str, payload: str
+    ) -> Optional[SQLInjectionFinding]:
         """Analyze if response indicates SQL injection"""
-        
+
         # SQL error patterns
         error_patterns = [
             (r"SQL syntax.*MySQL", DBType.MYSQL),
@@ -661,9 +668,9 @@ class SQLInjectionDatabase:
             (r"Warning.*sqlite_.*\(", DBType.SQLITE),
             (r"\[SQLITE_ERROR\]", DBType.SQLITE),
         ]
-        
+
         import re
-        
+
         for pattern, db_type in error_patterns:
             if re.search(pattern, modified_response, re.IGNORECASE):
                 return SQLInjectionFinding(
@@ -673,14 +680,14 @@ class SQLInjectionDatabase:
                     db_type=db_type,
                     payload=payload,
                     evidence=f"Error pattern matched: {pattern}",
-                    severity="Critical"
+                    severity="Critical",
                 )
-                
+
         # Check for time-based injection (would need timing info)
         # Check for boolean-based (compare original vs modified)
-        
+
         return None
-        
+
     def get_cheatsheet(self, db_type: DBType) -> str:
         """Get SQL injection cheatsheet for a database"""
         cheatsheets = {
@@ -815,5 +822,5 @@ Information Schema:
   SELECT name FROM sysobjects WHERE xtype='U'
 """,
         }
-        
+
         return cheatsheets.get(db_type, "Cheatsheet not available")
