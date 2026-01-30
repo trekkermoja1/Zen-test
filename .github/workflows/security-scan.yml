@@ -87,7 +87,7 @@ jobs:
     
     - name: Run Trivy Vulnerability Scanner
       if: steps.check_dockerfile.outputs.exists == 'true'
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.24.0
       with:
         image-ref: 'zen-ai-pentest:security-scan'
         format: 'sarif'
@@ -151,7 +151,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Run OWASP Dependency-Check
-      uses: dependency-check/Dependency-Check_Action@main
+      uses: dependency-check/Dependency-Check_Action@v1.1.0
       with:
         project: 'zen-ai-pentest'
         path: '.'

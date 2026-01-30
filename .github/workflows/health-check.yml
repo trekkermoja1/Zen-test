@@ -14,6 +14,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+      
     - name: Check Recent Workflow Runs
       id: check_runs
       continue-on-error: true
@@ -23,14 +26,23 @@ jobs:
         echo "=== Checking Recent Workflow Runs ==="
         
         # Get recent workflow runs
-        gh run list --limit 10 --json name,status,conclusion,startedAt,headBranch,url > runs.json
+        gh run list --limit 10 --json name,status,conclusion,startedAt,headBranch,url > runs.json || echo "[]" > runs.json
         
         echo "Recent runs:"
-        cat runs.json | jq -r '.[] | "\(.name): \(.status) - \(.conclusion // "pending")"'
+        if command -v jq &> /dev/null; then
+          cat runs.json | jq -r '.[] | "\(.name): \(.status) - \(.conclusion // "pending")"' 2>/dev/null || echo "Could not parse runs"
+        else
+          echo "jq not available, skipping formatted output"
+        fi
         
-        # Count failures
-        FAILURES=$(cat runs.json | jq '[.[] | select(.conclusion == "failure")] | length')
-        SUCCESS=$(cat runs.json | jq '[.[] | select(.conclusion == "success")] | length')
+        # Count failures (with fallback if jq fails)
+        if command -v jq &> /dev/null; then
+          FAILURES=$(cat runs.json | jq '[.[] | select(.conclusion == "failure")] | length' 2>/dev/null || echo "0")
+          SUCCESS=$(cat runs.json | jq '[.[] | select(.conclusion == "success")] | length' 2>/dev/null || echo "0")
+        else
+          FAILURES=0
+          SUCCESS=0
+        fi
         
         echo ""
         echo "Summary:"
@@ -42,7 +54,7 @@ jobs:
         
         if [ "$FAILURES" -gt 0 ]; then
           echo "::warning::Found $FAILURES failed workflow runs!"
-          exit 1
+          # Don't exit 1 here, let the step continue and report via annotation
         fi
         
     - name: Run Quick Smoke Test

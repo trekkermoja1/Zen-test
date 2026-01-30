@@ -117,20 +117,35 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const failedRuns = JSON.parse('${{ steps.check.outputs.failed_runs }}' || '[]');
-            
-            for (const run of failedRuns.slice(0, 3)) { // Max 3 retries
-              console.log(`Retrying workflow: ${run.name} (${run.id})`);
+            try {
+              const failedRunsJson = '${{ steps.check.outputs.failed_runs }}';
+              const failedRuns = failedRunsJson ? JSON.parse(failedRunsJson) : [];
               
-              try {
-                await github.rest.actions.reRunWorkflow({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  run_id: run.id
-                });
-                console.log(`✅ Retry triggered for ${run.name}`);
-              } catch (error) {
-                console.log(`❌ Failed to retry ${run.name}: ${error.message}`);
+              if (!Array.isArray(failedRuns) || failedRuns.length === 0) {
+                console.log('No failed runs to retry');
+                return;
               }
+              
+              for (const run of failedRuns.slice(0, 3)) { // Max 3 retries
+                if (!run || !run.id) {
+                  console.log('Skipping invalid run entry');
+                  continue;
+                }
+                
+                console.log(`Retrying workflow: ${run.name || 'unknown'} (${run.id})`);
+                
+                try {
+                  await github.rest.actions.reRunWorkflow({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    run_id: run.id
+                  });
+                  console.log(`✅ Retry triggered for ${run.name || run.id}`);
+                } catch (error) {
+                  console.log(`❌ Failed to retry ${run.name || run.id}: ${error.message}`);
+                }
+              }
+            } catch (error) {
+              console.log(`❌ Error in retry script: ${error.message}`);
             }
         continue-on-error: true
