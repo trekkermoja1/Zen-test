@@ -84,7 +84,9 @@ jobs:
           fi
           
       - name: Commit and push fixes
+        id: commit
         if: steps.check-changes.outputs.changed == 'true'
+        continue-on-error: true
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -92,8 +94,8 @@ jobs:
           git commit -m "Auto-fix: Resolve code style issues [skip ci]"
           git push
           
-      - name: Create PR if protected branch
-        if: steps.check-changes.outputs.changed == 'true' && failure()
+      - name: Create PR if push failed
+        if: steps.check-changes.outputs.changed == 'true' && steps.commit.outcome == 'failure'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

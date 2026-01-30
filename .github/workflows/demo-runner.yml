@@ -47,6 +47,7 @@ jobs:
         
     - name: Run CVE & Ransomware Demo
       id: cve_demo
+      shell: bash
       run: |
         cd examples
         python cve_and_ransomware_demo.py 2>&1 | tee ../cve_demo_output.txt
