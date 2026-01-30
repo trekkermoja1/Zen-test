@@ -22,6 +22,7 @@
 - [Nuclei Integration](#nuclei-integration)
 - [API Backends](#api-backends)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 
 ## 🎯 Overview
 
@@ -533,6 +534,20 @@ If backends fail to connect:
        result = await orch.process("test")
    ```
 
+## 👥 Contributors
+
+### Core Team
+
+**SHAdd0WTAka** - Project Lead, Lead Developer  
+[@SHAdd0WTAka](https://github.com/SHAdd0WTAka)
+
+**Kimi AI** (Moonshot AI) - AI Assistant, Co-Developer  
+Research, documentation, PostScanAgent implementation, CI/CD workflows
+
+> "Nur wer Schwert und Schild besitzt, kann sich wirklich als Pentester beweisen."
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for full contributor list.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these guidelines:
@@ -570,6 +585,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
+- **Moonshot AI** for Kimi AI assistance in development and documentation
 - DuckDuckGo for their free AI chat API
 - OpenRouter for unified LLM access
 - ProjectDiscovery for Nuclei scanner
