@@ -33,6 +33,12 @@ jobs:
         languages: ${{ matrix.language }}
         queries: security-extended,security-and-quality
 
+    - name: Create required directories
+      run: |
+        mkdir -p logs
+        mkdir -p evidence
+        mkdir -p data/sql_injection
+
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
 
