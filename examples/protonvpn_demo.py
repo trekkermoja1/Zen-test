@@ -17,13 +17,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from modules.protonvpn import (
-    ProtonVPNManager, 
-    VPNProtocol, 
-    VPNSecurityLevel,
-    quick_connect,
-    secure_connect
-)
+from modules.protonvpn import (ProtonVPNManager, VPNProtocol, VPNSecurityLevel,
+                               quick_connect, secure_connect)
 
 
 async def demo_basic_connection():

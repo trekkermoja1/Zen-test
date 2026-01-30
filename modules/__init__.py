@@ -6,7 +6,7 @@ from .cve_database import CVEDatabase, CVEEntry, RansomwareEntry
 from .exploit_assist import ExploitAssistModule
 from .nuclei_integration import NucleiIntegration, NucleiTemplateManager
 from .protonvpn import (ProtonVPNManager, VPNProtocol, VPNSecurityLevel,
-                        VPNStatus, VPNServer, quick_connect, secure_connect)
+                        VPNServer, VPNStatus, quick_connect, secure_connect)
 from .recon import ReconModule
 from .report_gen import ReportGenerator
 from .sql_injection_db import (DBType, SQLInjectionDatabase, SQLITechnique,
