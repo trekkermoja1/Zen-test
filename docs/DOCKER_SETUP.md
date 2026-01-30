@@ -44,8 +44,8 @@ git --version
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/SHAdd0WTAka/pentest-ai.git
-cd pentest-ai
+git clone https://github.com/SHAdd0WTAka/zen-ai-pentest.git
+cd zen-ai-pentest
 ```
 
 ### 2. Configure Environment
@@ -571,8 +571,8 @@ docker-compose exec -T postgres psql -U zenuser zenpentest < backup.sql
 ## Support
 
 For issues and questions:
-- GitHub Issues: https://github.com/SHAdd0WTAka/pentest-ai/issues
-- Documentation: https://github.com/SHAdd0WTAka/pentest-ai/docs
+- GitHub Issues: https://github.com/SHAdd0WTAka/zen-ai-pentest/issues
+- Documentation: https://github.com/SHAdd0WTAka/zen-ai-pentest/docs
 
 ---
 

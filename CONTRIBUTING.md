@@ -71,8 +71,8 @@ We welcome additions to our databases!
 
 ```bash
 # Clone the repository
-git clone https://github.com/SHAdd0WTAka/pentest-ai.git
-cd pentest-ai
+git clone https://github.com/SHAdd0WTAka/zen-ai-pentest.git
+cd zen-ai-pentest
 
 # Create virtual environment
 python -m venv venv

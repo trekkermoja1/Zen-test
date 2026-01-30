@@ -59,7 +59,7 @@ class ZenTUI:
 [bold cyan]          ███╔╝ █████╗  ██╔██╗ ██║[/]  [bold]AI-Powered Penetration Testing[/]
 [bold cyan]         ███╔╝  ██╔══╝  ██║╚██╗██║[/]  [dim]Multi-LLM Security Framework[/]
 [bold cyan]        ███████╗███████╗██║ ╚████║[/]
-[bold cyan]        ╚══════╝╚══════╝╚═╝  ╚═══╝[/]  [dim]v1.0.0 | github.com/SHAdd0WTAka/pentest-ai[/]
+[bold cyan]        ╚══════╝╚══════╝╚═╝  ╚═══╝[/]  [dim]v1.0.0 | github.com/SHAdd0WTAka/zen-ai-pentest[/]
         """
         self.console.print(banner)
         self.console.print()

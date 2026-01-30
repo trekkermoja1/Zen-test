@@ -221,7 +221,7 @@ print_summary() {
     echo "  Stop services:   $COMPOSE_CMD -f $COMPOSE_FILE down"
     echo "  Scale workers:   $COMPOSE_CMD -f $COMPOSE_FILE up -d --scale worker=3"
     echo ""
-    echo "Documentation: https://github.com/SHAdd0WTAka/pentest-ai/docs/DOCKER_SETUP.md"
+    echo "Documentation: https://github.com/SHAdd0WTAka/zen-ai-pentest/docs/DOCKER_SETUP.md"
 }
 
 # Main execution

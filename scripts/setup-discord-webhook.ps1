@@ -46,7 +46,7 @@ Write-Host ""
 Write-Host "  Name: DISCORD_WEBHOOK" -ForegroundColor Cyan
 Write-Host "  Value: $webhookUrl" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Go to: https://github.com/SHAdd0WTAka/pentest-ai/settings/secrets/actions"
+Write-Host "Go to: https://github.com/SHAdd0WTAka/zen-ai-pentest/settings/secrets/actions"
 Write-Host ""
 
 # Optional: Create GitHub CLI command

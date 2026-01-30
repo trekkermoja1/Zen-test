@@ -443,4 +443,4 @@ findings = client.findings.list(scan_id=scan.id)
 
 ---
 
-*For more information, visit the [GitHub repository](https://github.com/SHAdd0WTAka/pentest-ai)*
+*For more information, visit the [GitHub repository](https://github.com/SHAdd0WTAka/zen-ai-pentest)*

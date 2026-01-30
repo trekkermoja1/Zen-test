@@ -31,7 +31,7 @@ setup(
     description="AI-Powered Multi-LLM Penetration Testing Framework",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SHAdd0WTAka/pentest-ai",
+    url="https://github.com/SHAdd0WTAka/zen-ai-pentest",
     packages=find_packages(exclude=["tests", "tests.*", "docs", "examples"]),
     classifiers=[
         "Development Status :: 4 - Beta",
