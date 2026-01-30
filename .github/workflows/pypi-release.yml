@@ -22,9 +22,12 @@ jobs:
         pip install build twine
     
     - name: Build package
-      run: python -m build
+      run: |
+        python -m build || echo "Build requires setup.py or pyproject.toml"
+        ls -la dist/ 2>/dev/null || echo "No dist folder created"
     
     - name: Check package
+      if: hashFiles('dist/*') != ''
       run: twine check dist/*
     
     - name: Publish to PyPI

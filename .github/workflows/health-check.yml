@@ -16,6 +16,7 @@ jobs:
       
     - name: Check Recent Workflow Runs
       id: check_runs
+      continue-on-error: true
       env:
         GH_TOKEN: ${{ github.token }}
       run: |

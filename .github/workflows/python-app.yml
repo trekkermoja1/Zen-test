@@ -38,10 +38,9 @@ jobs:
         cache: 'pip'
         
     - name: Create required directories
+      shell: bash
       run: |
-        mkdir -p logs
-        mkdir -p evidence
-        mkdir -p data/sql_injection
+        mkdir -p logs evidence data/sql_injection templates/reports
         
     - name: Install dependencies
       run: |
@@ -96,7 +95,11 @@ jobs:
       
     - name: Test with pytest (if tests exist)
       run: |
-        pytest tests/ -v --tb=short || echo "No tests directory found"
+        if [ -d "tests" ]; then
+          pytest tests/ -v --tb=short || echo "Tests completed with issues"
+        else
+          echo "No tests directory found"
+        fi
       continue-on-error: true
       env:
         PYTHONIOENCODING: utf-8

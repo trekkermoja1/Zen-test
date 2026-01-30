@@ -75,7 +75,9 @@ jobs:
           cat payload.json
 
       - name: Send to Discord
-        if: ${{ secrets.DISCORD_WEBHOOK != '' }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: ${{ env.DISCORD_WEBHOOK != '' }}
         run: |
           curl -X POST -H "Content-Type: application/json" \
             -d @payload.json \
@@ -83,7 +85,9 @@ jobs:
         continue-on-error: true
 
       - name: Send to Slack
-        if: ${{ secrets.SLACK_WEBHOOK != '' }}
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        if: ${{ env.SLACK_WEBHOOK != '' }}
         run: |
           WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
           CONCLUSION="${{ github.event.workflow_run.conclusion }}"
