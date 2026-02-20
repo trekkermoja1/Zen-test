@@ -1,7 +1,7 @@
 """Metasploit Framework Integration"""
 
-import subprocess
 import logging
+import subprocess
 import time
 from typing import Dict, List
 
