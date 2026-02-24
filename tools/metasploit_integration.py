@@ -23,7 +23,16 @@ class MetasploitManager:
         try:
             # Prüfe ob RPC läuft
             subprocess.run(
-                ["msfrpcd", "-P", password, "-S", "-a", self.rpc_host, "-p", str(self.rpc_port)],
+                [
+                    "msfrpcd",
+                    "-P",
+                    password,
+                    "-S",
+                    "-a",
+                    self.rpc_host,
+                    "-p",
+                    str(self.rpc_port),
+                ],
                 capture_output=True,
                 text=True,
                 check=False,
@@ -41,11 +50,15 @@ class MetasploitManager:
             # pymetasploit3 verwenden falls verfügbar
             from pymetasploit3.msfrpc import MsfRpcClient
 
-            self.client = MsfRpcClient(self.rpc_pass, server=self.rpc_host, port=self.rpc_port)
+            self.client = MsfRpcClient(
+                self.rpc_pass, server=self.rpc_host, port=self.rpc_port
+            )
             logger.info("Metasploit RPC verbunden")
             return True
         except ImportError:
-            logger.error("pymetasploit3 nicht installiert: pip install pymetasploit3")
+            logger.error(
+                "pymetasploit3 nicht installiert: pip install pymetasploit3"
+            )
             return False
         except Exception as e:
             logger.error(f"RPC Connect Fehler: {e}")
@@ -58,12 +71,25 @@ class MetasploitManager:
 
         try:
             results = self.client.modules.search(keyword)
-            return [{"name": r["fullname"], "type": r["type"], "description": r["description"][:100]} for r in results[:10]]
+            return [
+                {
+                    "name": r["fullname"],
+                    "type": r["type"],
+                    "description": r["description"][:100],
+                }
+                for r in results[:10]
+            ]
         except Exception as e:
             logger.error(f"Search Fehler: {e}")
             return []
 
-    def execute_exploit(self, exploit_path: str, target: str, payload: str = None, options: Dict = None) -> Dict:
+    def execute_exploit(
+        self,
+        exploit_path: str,
+        target: str,
+        payload: str = None,
+        options: Dict = None,
+    ) -> Dict:
         """
         Führt Exploit aus.
 
@@ -88,7 +114,11 @@ class MetasploitManager:
             else:
                 exploit.execute()
 
-            return {"status": "executed", "exploit": exploit_path, "target": target}
+            return {
+                "status": "executed",
+                "exploit": exploit_path,
+                "target": target,
+            }
 
         except Exception as e:
             logger.error(f"Exploit Fehler: {e}")
@@ -117,7 +147,13 @@ class MetasploitManager:
         try:
             sessions = []
             for s in self.client.sessions.list:
-                sessions.append({"id": s["session_id"], "type": s["type"], "target": s["session_host"]})
+                sessions.append(
+                    {
+                        "id": s["session_id"],
+                        "type": s["type"],
+                        "target": s["session_host"],
+                    }
+                )
             return sessions
         except Exception:
             return []
@@ -135,19 +171,36 @@ class MetasploitCLI:
             f.write("\\n".join(commands))
 
         try:
-            result = subprocess.run(["msfconsole", "-r", rc_file, "-q"], capture_output=True, text=True, timeout=timeout)
+            result = subprocess.run(
+                ["msfconsole", "-r", rc_file, "-q"],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
             return result.stdout
         except Exception as e:
             return f"Error: {str(e)}"
 
     @staticmethod
-    def generate_payload(payload_type: str, lhost: str, lport: int, format: str = "exe") -> str:
+    def generate_payload(
+        payload_type: str, lhost: str, lport: int, format: str = "exe"
+    ) -> str:
         """Generiert Payload mit msfvenom"""
         output_file = f"/tmp/payload_{int(time.time())}.{format}"
 
         try:
             result = subprocess.run(
-                ["msfvenom", "-p", payload_type, f"LHOST={lhost}", f"LPORT={lport}", "-f", format, "-o", output_file],
+                [
+                    "msfvenom",
+                    "-p",
+                    payload_type,
+                    f"LHOST={lhost}",
+                    f"LPORT={lport}",
+                    "-f",
+                    format,
+                    "-o",
+                    output_file,
+                ],
                 capture_output=True,
                 text=True,
             )
@@ -170,7 +223,9 @@ def metasploit_search(keyword: str) -> str:
     msf = MetasploitManager()
     if msf.connect_rpc():
         results = msf.search_exploits(keyword)
-        return "\\n".join([f"{r['name']}: {r['description']}" for r in results[:5]])
+        return "\\n".join(
+            [f"{r['name']}: {r['description']}" for r in results[:5]]
+        )
     return "Metasploit RPC nicht verfügbar"
 
 
@@ -178,4 +233,8 @@ def metasploit_search(keyword: str) -> str:
 def msfvenom_generate(payload: str, lhost: str, lport: int) -> str:
     """Generiert Payload mit msfvenom"""
     result = MetasploitCLI.generate_payload(payload, lhost, lport)
-    return f"Payload generiert: {result}" if not result.startswith("Error") else result
+    return (
+        f"Payload generiert: {result}"
+        if not result.startswith("Error")
+        else result
+    )
