@@ -261,7 +261,7 @@ runs:
 
     - name: Upload SARIF to GitHub Security
       if: ${{ inputs.upload-sarif == 'true' && (inputs.output-format == 'sarif' || inputs.output-format == 'all') }}
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: ${{ steps.scan.outputs.results-file }}
         category: zen-ai-pentest
