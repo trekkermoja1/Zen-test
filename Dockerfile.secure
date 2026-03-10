@@ -13,7 +13,7 @@
 # =============================================================================
 # Stage 1: Builder
 # =============================================================================
-FROM python:3.11.7-slim-bookworm AS builder
+FROM python:3.14.3-slim-bookworm AS builder
 
 # Security: Update system packages
 RUN apt-get update && apt-get upgrade -y && \
@@ -34,7 +34,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # =============================================================================
 # Stage 2: Production
 # =============================================================================
-FROM python:3.11.7-slim-bookworm AS production
+FROM python:3.14.3-slim-bookworm AS production
 
 # Security labels
 LABEL maintainer="Zen AI Pentest Team"

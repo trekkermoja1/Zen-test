@@ -14,7 +14,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1: Builder
 # -----------------------------------------------------------------------------
-FROM python:3.11-slim AS builder
+FROM python:3.14-slim AS builder
 
 WORKDIR /build
 
@@ -41,7 +41,7 @@ RUN pip install --no-cache-dir --user -r requirements.txt \
 # -----------------------------------------------------------------------------
 # Stage 2: Production
 # -----------------------------------------------------------------------------
-FROM python:3.11-slim AS production
+FROM python:3.14-slim AS production
 
 LABEL maintainer="Zen-AI-Pentest Team <security@zen-ai.dev>"
 LABEL org.opencontainers.image.title="Zen AI Pentest"
@@ -171,7 +171,7 @@ LABEL org.opencontainers.image.variant="development"
 # -----------------------------------------------------------------------------
 # Stage 5: Slim (minimal size for simple scans)
 # -----------------------------------------------------------------------------
-FROM python:3.11-alpine AS slim
+FROM python:3.14-alpine AS slim
 
 WORKDIR /app
 
